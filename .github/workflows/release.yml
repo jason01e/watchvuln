@@ -18,15 +18,32 @@ jobs:
       fail-fast: true
       matrix:
         include:
+          - os: windows
+            arch: amd64
+            output: watchvuln-windows-amd64.exe
+          - os: darwin
+            arch: amd64
+            output: watchvuln-darwin-amd64
+          - os: darwin
+            arch: arm64
+            output: watchvuln-darwin-arm64
+          - os: linux
+            arch: amd64
+            output: watchvuln-linux-amd64
+          - os: linux
+            arch: arm64
+            output: watchvuln-linux-arm64
           - os: linux
             arch: arm
+            goarch: arm
+            goarm: 7
             output: watchvuln-linux-armv7
     runs-on: ubuntu-latest
     env:
       CGO_ENABLED: 0
       GOOS: ${{ matrix.os }}
       GOARCH: ${{ matrix.arch }}
-      GOARM: 7
+      GOARM: ${{ matrix.goarm }}
     steps:
       - uses: actions/checkout@v4
         with:
